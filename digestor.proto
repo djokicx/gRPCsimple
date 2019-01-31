@@ -1,0 +1,20 @@
+// dialect used
+syntax = "proto3";
+
+// proto package
+package digestor;
+
+// set of services titled "Digestor"
+service Digestor{
+    // simple single service titled "GetDigestor"
+    rpc GetDigestor(DigestMessage) returns (DigestedMessage) {}
+}
+
+message DigestMessage{
+ string ToDigest = 1;
+}
+
+message DigestedMessage{
+ string Digested = 1;
+ bool WasDigested = 2;
+}
