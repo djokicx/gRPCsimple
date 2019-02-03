@@ -37,7 +37,7 @@ class DigestorServicer(digestor_pb2_grpc.DigestorServicer):
     def GetDStream(self, request, context):
         to_be_digested_message = request.ToDigest
         # get all the words in the sentence
-        word_list =to_be_digested_message.split('')
+        word_list =to_be_digested_message.split(' ')
 
         for word in word_list:
             yield digestor_pb2.DigestedMessage(**self.get_hash(word))

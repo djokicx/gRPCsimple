@@ -27,3 +27,12 @@ class DigestorClient(object):
         """
         to_digest_message = digestor_pb2.DigestMessage(ToDigest = message)
         return self.stub.GetDigestor(to_digest_message)
+
+    def get_streaming_digest(self, message):
+        """
+        Client function to call the rpc for GetDStream
+        """
+        to_digest_message = digestor_pb2.DigestMessage(ToDigest = message)
+        digested_words = self.stub.GetDStream(to_digest_message)
+        for digested_word in digested_words:
+            print(digested_word)
