@@ -34,6 +34,20 @@ class DigestorServicer(digestor_pb2_grpc.DigestorServicer):
         # defined in the proto file as a return type, takes a dict as a set of arguments
         return digestor_pb2.DigestedMessage(**result)
 
+    def GetDStream(self, request, context):
+        to_be_digested_message = request.ToDigest
+        # get all the words in the sentence
+        word_list =to_be_digested_message.split('')
+
+        for word in word_list:
+            yield digestor_pb2.DigestedMessage(**self.get_hash(word))
+
+    def get_hash(self, data):
+        hasher = hashlib.sha256()
+        hasher.update(data.encode())
+        digested = hasher.hexdigest()
+        return {'Digested': digested, 'WasDigested': True}
+
     def start_server(self):
         """
         Function which actually starts the gRPC server, and preps
